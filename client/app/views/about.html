@@ -1,0 +1,74 @@
+<head>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+</head>
+<body>
+  <p>all about maps!</p>
+  <div id='map'></div>
+
+  <script>
+
+    // var downMarkerIcon = L.icon({
+    //   iconURL: 'http://imgur.com/upL5B3x',
+    //   shadowUrl: 'http://imgur.com/ZnQG9Bf',
+    //   iconSize:     [35, 20], // size of the icon
+    //   shadowSize:   [30, 12], // size of the shadow
+    //   iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    //   shadowAnchor: [4, 62], // the same for the shadow
+    //   popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    // });
+
+    // var locativeGo = L.marker([33.74161,-84.37345], {icon: downMarkerIcon}).bindPopup('<b>LocativeGO.</b>')
+
+    var locativeGo = L.marker([33.74161,-84.37345]).bindPopup('<b>LocativeGO.</b>'),
+        homegrown  = L.marker([33.74671,-84.35470]).bindPopup('<img src="http://2.bp.blogspot.com/-a6zOUQigHD8/UmxhnFi-RwI/AAAAAAAAJzA/xqDEafyPvZE/s200/logo.png">'),
+        blvd       = L.marker([33.75360,-84.35058]).bindPopup('Old abode.'),
+        littles    = L.marker([33.74957,-84.36800]).bindPopup('Little\'s Grocery');
+    var photoLocations = L.layerGroup([locativeGo, homegrown, blvd, littles]);
+
+    var sat = L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg', {attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.creativecommons/content/osm/mq_logo.png"'}
+      ),
+      toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com" target="_blank">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright" target="_blank">ODbL</a>.'}
+      ),
+      terrain = L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com" target="_blank">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_blank">CC BY SA</a>.'}
+      );
+
+    var map = L.map('map', {
+      center: [33.74671, -84.35470],
+      zoom: 14,
+      layers: [terrain, photoLocations]
+    });
+  
+    var polyline = L.polyline([
+              [33.74161,-84.37345],
+              [33.74671,-84.35470],
+              [33.75360,-84.35058],
+              [33.74957,-84.36800],
+              [33.74161,-84.37345]
+              ],
+              {
+                  color: 'blue',
+                  weight: 5,
+                  opacity: .5,
+                  dashArray: '20,15',
+                  lineJoin: 'round'
+              }
+              ).addTo(map);
+ 
+    var baseMaps = {
+      'Satellite': sat,
+      'Toner': toner,
+      'Terrain': terrain
+    };
+
+    var overlayMaps = {
+      'PhotoLocations': photoLocations
+    };
+
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+    
+  </script>
+</body>

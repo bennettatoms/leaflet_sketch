@@ -1,0 +1,62 @@
+<head>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <meta charset="utf-8" />
+  <title>Leaflet Routing Machine Example</title>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <link rel="stylesheet" href="leaflet-routing-machine.css" />
+</head>
+<body>
+
+<h1>Leaflet Routing Machine Example</h1>
+<div id='map'></div>
+
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src="leaflet-routing-machine.js"></script>
+  <script>
+   var octane = L.marker([33.74614,-84.37295]).bindPopup('<img src="http://static.thefrisky.com/uploads/2012/09/26/hipster-barista-150x200.jpg">'),
+      goats    = L.marker([33.77152,-84.36736]).bindPopup('<img src="http://www.localsonlycoffee.com/v/vspfiles/photos/BaB01-2T.gif">'),
+      monkey   = L.marker([33.77519,-84.29457]).bindPopup('<img src="https://instagramimages-a.akamaihd.net/profiles/profile_1131817683_75sq_1393559048.jpg">'),
+      sbux     = L.marker([33.77830,-84.38430]).bindPopup('<img src="http://www.sort-of-the-news.com/wp/wp-content/uploads/2010/02/starbucks-logo1-150x150.jpg">');
+
+    var coffeeShops = L.layerGroup([octane, goats, monkey, sbux]);
+
+    var street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors'}
+        ),
+        cycle  = L.tileLayer('http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png', {attribution: 'Maps &copy; <a href="http://www.thunderforest.com" target="_blank">Thunderforest</a>. Data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
+        ),
+        watercolor = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png', {attribution: 'Map tiles by <a href="http://stamen.com" target="_blank">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0" target="_blank">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0" target="_blank">CC BY SA</a>.'}
+        );
+
+     var map = L.map('map', {
+      center: [33.77152,-84.33736], 
+      zoom: 12, 
+      layers: [street, coffeeShops] 
+    });
+
+    var baseMaps = {
+      'Street': street,
+      'Cycle': cycle,
+      'Watercolor': watercolor
+    };
+
+    var overlayMaps = {
+      'My Coffee Shops': coffeeShops
+    };
+
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+    L.Routing.control({
+      waypoints: [
+          L.latLng(33.74614,-84.37295),
+          L.latLng(33.77152,-84.36736),
+          L.latLng(33.77519,-84.29457),
+          L.latLng(33.77830,-84.38430),
+          L.latLng(33.74614,-84.37295)
+      ],
+      routeWhileDragging: true
+    }).addTo(map);
+  </script>
+</body>
+
+
