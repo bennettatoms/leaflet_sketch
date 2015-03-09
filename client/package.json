@@ -1,7 +1,9 @@
 {
   "name": "client",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "leaflet-routing-machine": "^2.2.1"
+  },
   "repository": {},
   "devDependencies": {
     "grunt": "^0.4.5",
